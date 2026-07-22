@@ -1,6 +1,6 @@
-# Phase 9: Event Labeling
+# Event Labeling
 
-This phase converts dynamic residual histories into supervised learning examples. The labeling target is not a next-day price forecast. The target is whether an entry signal mean-reverts before a stop-loss barrier within a fixed holding period.
+This converts dynamic residual histories into supervised learning examples. The labeling target is not a next-day price forecast. The target is whether an entry signal mean-reverts before a stop-loss barrier within a fixed holding period.
 
 The event definition is tied to the trading problem:
 
@@ -28,7 +28,7 @@ If neither condition occurs before the maximum holding period, the event is labe
 - `data/processed/event_success_rate_by_z_bucket.csv`
 - `figures/event_label_distribution.png`
 
-The included outputs are placeholders generated from synthetic data when real residual histories are not available. The notebook overwrites these files when run with real project outputs from the earlier phases.
+The included outputs are placeholders generated from synthetic data when real residual histories are not available. The notebook overwrites these files when run with real project outputs from earlier stages.
 
 ## Limitations
 

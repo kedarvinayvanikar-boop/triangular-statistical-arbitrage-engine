@@ -1,6 +1,6 @@
-# Phase 16: SQL Database Design and Validation
+# SQL Database Design and Validation
 
-This phase finalizes the database layer for the triangular stat-arb research system. The goal is not to make SQL a cosmetic storage layer. The database is the audit trail for market data, transformations, residuals, event labels, model predictions, trades, daily PnL, and performance summaries.
+This finalizes the database layer for the triangular stat-arb research system. The goal is not to make SQL a cosmetic storage layer. The database is the audit trail for market data, transformations, residuals, event labels, model predictions, trades, daily PnL, and performance summaries.
 
 ## Design goals
 
@@ -34,7 +34,7 @@ The finalized schema includes the required tables:
 - pnl_daily
 - performance_summary
 
-Legacy phase-specific tables are retained for backward compatibility. The canonical tables above provide the clean end-to-end research database design.
+Legacy stage-specific tables are retained for backward compatibility. The canonical tables above provide the clean end-to-end research database design.
 
 ## Validation queries
 
@@ -46,15 +46,15 @@ Legacy phase-specific tables are retained for backward compatibility. The canoni
 
 ## Outputs
 
-The included Phase 16 outputs were generated from a small synthetic validation database. They verify schema mechanics and expected query formats. They are not market-data research results.
+The included outputs were generated from a small synthetic validation database. They verify schema mechanics and expected query formats. They are not market-data research results.
 
-- `data/processed/phase16_row_counts_by_table.csv`
-- `data/processed/phase16_validation_query_results.csv`
-- `data/processed/phase16_data_integrity_checks.csv`
-- `data/processed/phase16_report_query_results.csv`
-- `data/processed/phase16_validation_sample.db`
-- `data/processed/phase16_validation_outputs/`
-- `data/processed/phase16_report_outputs/`
+- `data/processed/16_row_counts_by_table.csv`
+- `data/processed/16_validation_query_results.csv`
+- `data/processed/16_data_integrity_checks.csv`
+- `data/processed/16_report_query_results.csv`
+- `data/processed/16_validation_sample.db`
+- `data/processed/16_validation_outputs/`
+- `data/processed/16_report_outputs/`
 
 ## Usage
 

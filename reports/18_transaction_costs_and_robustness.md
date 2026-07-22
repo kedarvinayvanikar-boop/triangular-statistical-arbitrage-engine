@@ -1,12 +1,12 @@
-# Phase 18: Transaction Costs, Slippage, and Robustness
+# Transaction Costs, Slippage, and Robustness
 
 ## Objective
 
-This phase tests whether residual-based event strategies remain robust after execution frictions and parameter variation. The goal is not to claim tradability. The goal is to make the backtest less dependent on optimistic assumptions.
+This tests whether residual-based event strategies remain robust after execution frictions and parameter variation. The goal is not to claim tradability. The goal is to make the backtest less dependent on optimistic assumptions.
 
 ## Cost model
 
-The phase models total round-trip cost as:
+Total round-trip cost is modeled as:
 
 ```text
 total_cost_per_unit = commission_per_trade + bid_ask_spread_proxy + slippage
@@ -46,4 +46,4 @@ The strongest result would be stable performance across a range of cost and thre
 
 ## Limitations
 
-The included sample outputs are synthetic placeholders. They should be regenerated with real Phase 9 labels and Phase 11 predictions before drawing any research conclusions.
+The included sample outputs are synthetic placeholders. They should be regenerated with real event labels and logistic regression predictions before drawing any research conclusions.

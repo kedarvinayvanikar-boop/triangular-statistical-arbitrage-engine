@@ -356,10 +356,11 @@ def threshold_sensitivity_pivot(
     # entry x exit x stop x holding combination) into a wide grid --
     # entry thresholds as rows, exit thresholds as columns -- which is
     # exactly the shape the dashboard's heatmap panel renders directly.
-    # Note: see CHANGELOG.md for the finding that exit_threshold has no
-    # actual effect on net_pnl/sharpe in the current pipeline, which this
-    # pivot itself doesn't know or check -- it just reshapes whatever
-    # values are there.
+    # Note: exit_threshold currently has no actual effect on net_pnl/sharpe
+    # in this pipeline -- realized PnL is always computed from each event's
+    # originally recorded exit_z_score, not a value recomputed under a
+    # hypothetical threshold. This pivot itself doesn't know or check that;
+    # it just reshapes whatever values are there.
     required = {"strategy", "entry_threshold", "exit_threshold", metric}
     missing = required.difference(sensitivity.columns)
     if missing:

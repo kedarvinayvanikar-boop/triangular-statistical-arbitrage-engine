@@ -5,7 +5,7 @@ the ML-filtered backtest -- across every triplet in TRIPLET_DEFINITIONS
 (82, spanning 18 sector themes), not just the original 10.
 
 This intentionally does NOT fall back to synthetic placeholder data the
-way some of the earlier phase notebooks do when their preferred input is
+way some of the earlier research notebooks do when their preferred input is
 missing. If data/processed/adjusted_prices_clean.csv doesn't exist, this
 script stops with a clear error rather than silently generating fake
 prices -- run scripts/ingest_prices.py first (on a machine with real

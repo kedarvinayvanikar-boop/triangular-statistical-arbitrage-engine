@@ -1,4 +1,4 @@
-# Phase 7: Rolling OLS and Ridge Regression
+# Rolling OLS and Ridge Regression
 
 ## Intuition
 
@@ -16,7 +16,7 @@ The triangular relationship is still:
 log(P_A,t) = alpha + beta_1 log(P_B,t) + beta_2 log(P_C,t) + epsilon_t
 ```
 
-The residual measures how far the target is from the estimated hedge basket. Phase 7 changes how the coefficients are estimated, not the definition of the residual.
+The residual measures how far the target is from the estimated hedge basket. This section changes how the coefficients are estimated, not the definition of the residual.
 
 ## Math
 

@@ -1,13 +1,13 @@
-# Phase 14: Optional Decision Tree from Scratch
+# Optional Decision Tree from Scratch
 
-This optional phase adds a simple decision tree classifier for event outcome modeling. The model is intentionally constrained because the event dataset can be small and tree models can overfit residual-event samples.
+This optional module adds a simple decision tree classifier for event outcome modeling. The model is intentionally constrained because the event dataset can be small and tree models can overfit residual-event samples.
 
-The target remains the Phase 9 label:
+The target remains the event label defined earlier:
 
 - `1`: residual reverted before stop-loss inside the maximum holding period
 - `0`: stop-loss hit first or no reversion inside the maximum holding period
 
-The decision tree uses Phase 10 event-time features only. It does not use exit dates, future residual paths, realized post-entry outcomes, or label-derived columns as features.
+The decision tree uses the event-time features from feature engineering only. It does not use exit dates, future residual paths, realized post-entry outcomes, or label-derived columns as features.
 
 ## Files
 

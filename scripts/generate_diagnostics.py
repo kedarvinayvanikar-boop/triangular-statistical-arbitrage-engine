@@ -1,5 +1,5 @@
 """
-Generates three diagnostic tables that are not part of the original phase
+Generates three diagnostic tables that are not part of the original
 pipeline but should be checked before trusting any headline metric here:
 
   1. feature_collinearity_flags.csv  -- ML trade-filter input features with
@@ -34,8 +34,8 @@ from src.portfolio import bootstrap_trade_metric_ci, shared_leg_groups, wilson_s
 DATA_DIR = PROJECT_ROOT / "data" / "processed"
 
 # The full set of triplets this project tracks hedge ratios for -- kept
-# here rather than inferred from one table, since different phase outputs
-# cover different subsets (see CHANGELOG.md on HMM coverage being partial).
+# here rather than inferred from one table, since different pipeline outputs
+# cover different subsets (HMM regime coverage is currently partial).
 TRIPLETS = [
     "AAPL_QQQ_XLK", "AMD_SMH_QQQ", "AMZN_QQQ_XLY", "BAC_XLF_KRE", "CVX_XLE_USO",
     "JPM_XLF_KRE", "MSFT_QQQ_XLK", "NVDA_SMH_QQQ", "TSLA_QQQ_XLY", "XOM_XLE_USO",

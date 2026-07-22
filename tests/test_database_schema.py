@@ -14,7 +14,7 @@ from src.database import (
 )
 
 
-def test_phase16_schema_creates_required_tables(tmp_path):
+def test_sql_schema_creates_required_tables(tmp_path):
     db_path = tmp_path / "research.db"
     schema_path = Path(__file__).resolve().parents[1] / "sql" / "schema.sql"
     initialize_database(db_path, schema_path)
@@ -24,7 +24,7 @@ def test_phase16_schema_creates_required_tables(tmp_path):
     assert counts["exists"].eq(1).all()
 
 
-def test_phase16_named_query_parser_loads_validation_queries():
+def test_sql_named_query_parser_loads_validation_queries():
     sql_path = Path(__file__).resolve().parents[1] / "sql" / "validation_queries.sql"
     queries = parse_named_sql_queries(sql_path)
     assert "required_table_row_counts" in queries
@@ -32,7 +32,7 @@ def test_phase16_named_query_parser_loads_validation_queries():
     assert all(query.lower().startswith("select") for query in queries.values())
 
 
-def test_phase16_validation_queries_return_status_rows(tmp_path):
+def test_sql_validation_queries_return_status_rows(tmp_path):
     db_path = tmp_path / "research.db"
     root = Path(__file__).resolve().parents[1]
     initialize_database(db_path, root / "sql" / "schema.sql")
@@ -42,7 +42,7 @@ def test_phase16_validation_queries_return_status_rows(tmp_path):
     assert "required_table_row_counts" in set(results["check_name"])
 
 
-def test_phase16_canonical_store_functions_write_core_rows(tmp_path):
+def test_sql_canonical_store_functions_write_core_rows(tmp_path):
     db_path = tmp_path / "research.db"
     root = Path(__file__).resolve().parents[1]
     initialize_database(db_path, root / "sql" / "schema.sql")

@@ -321,7 +321,7 @@ def train_event_decision_tree(
     if "label" not in feature_matrix.columns:
         raise KeyError("feature_matrix must contain label")
     if not dataset_large_enough(feature_matrix, min_events=min_events_required, min_positive=5, min_negative=5):
-        raise ValueError("event dataset is too small for the optional decision tree phase")
+        raise ValueError("event dataset is too small for the optional decision tree")
     prepared, cols = prepare_tree_frame(feature_matrix, feature_columns=feature_columns)
     ordered = prepared.sort_values("event_date").reset_index(drop=True) if "event_date" in prepared.columns else prepared.reset_index(drop=True)
     split_idx = max(1, min(ordered.shape[0] - 1, int(np.floor(ordered.shape[0] * train_fraction))))

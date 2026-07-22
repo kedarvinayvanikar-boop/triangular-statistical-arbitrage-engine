@@ -1,4 +1,4 @@
--- Phase 16 validation queries.
+-- Validation queries.
 -- Each query returns rows only when an integrity issue is present, except the row-count summary.
 
 -- name: required_table_row_counts

@@ -1,6 +1,6 @@
-# Phase 12: Model Evaluation and Calibration
+# Model Evaluation and Calibration
 
-This phase evaluates the logistic regression trade-event model from Phase 11. The model output is a predicted probability that a candidate residual event will revert before hitting the stop-loss barrier within the maximum holding period.
+This evaluates the logistic regression trade-event model described earlier. The model output is a predicted probability that a candidate residual event will revert before hitting the stop-loss barrier within the maximum holding period.
 
 The evaluation layer focuses on probability quality, not only classification accuracy. This is important because the later ML-filtered backtest can use probability thresholds to decide which events to trade.
 
@@ -23,7 +23,7 @@ Accuracy is included, but it is not treated as the main objective. If failed eve
 
 Calibration compares predicted probabilities with observed event success rates. A calibrated model should have realized success rates close to the predicted probabilities inside each probability bucket.
 
-This matters because the next phase may use rules such as:
+This matters because downstream usage may apply rules such as:
 
 ```text
 trade only if predicted_reversion_probability >= 0.60
@@ -33,7 +33,7 @@ or use probability as an input to position sizing. Poor calibration can make the
 
 ## Artifacts
 
-Phase 12 writes:
+This step writes:
 
 ```text
 data/processed/model_evaluation_summary.csv
@@ -46,7 +46,7 @@ figures/precision_by_probability_bucket.png
 figures/confusion_matrix.png
 ```
 
-The placeholder artifacts included in the package are based on the available sample predictions from Phase 11. They should be regenerated locally with real labeled event predictions before interpretation.
+The placeholder artifacts included in the package are based on the available sample predictions from the logistic regression stage. They should be regenerated locally with real labeled event predictions before interpretation.
 
 ## Limitations
 

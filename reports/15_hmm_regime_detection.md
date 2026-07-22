@@ -1,6 +1,6 @@
-# Phase 15: Optional HMM Regime Detection
+# Optional HMM Regime Detection
 
-This optional phase adds a hidden-regime layer for residual behavior. The model is a simple Gaussian hidden Markov model estimated from residual z-scores by triplet. It is intended as a research diagnostic and strategy filter, not as proof that the market has exactly three true states.
+This optional module adds a hidden-regime layer for residual behavior. The model is a simple Gaussian hidden Markov model estimated from residual z-scores by triplet. It is intended as a research diagnostic and strategy filter, not as proof that the market has exactly three true states.
 
 ## Research purpose
 

@@ -76,14 +76,14 @@ def regenerate_ml_backtest() -> None:
 
 def regenerate_cost_and_threshold_sensitivity() -> None:
     """Mirrors notebooks/transaction_cost_sensitivity.ipynb exactly, using
-    the same phase-18 placeholder event universe the original run actually
+    the same synthetic placeholder event universe the original run actually
     consumed (event_labels_table.csv / predicted_reversion_probabilities.csv
     did not overlap by event_id at generation time, so the notebook's
-    existence-based fallback to the phase18 files is what produced the
+    existence-based fallback to the synthetic event/prediction files is what produced the
     currently-shipped 90-trade baseline grid; reproduced here identically).
     """
-    label_path = DATA_DIR / "phase18_synthetic_event_labels.csv"
-    prediction_path = DATA_DIR / "phase18_synthetic_predictions.csv"
+    label_path = DATA_DIR / "18_synthetic_event_labels.csv"
+    prediction_path = DATA_DIR / "18_synthetic_predictions.csv"
     labels = pd.read_csv(label_path, parse_dates=["event_date", "exit_date"])
     predictions = pd.read_csv(prediction_path)
 

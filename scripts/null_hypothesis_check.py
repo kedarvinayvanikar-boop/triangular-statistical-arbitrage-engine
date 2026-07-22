@@ -13,8 +13,8 @@ This exists because an earlier one-off test (a single seed, during
 development of scripts/run_universe_pipeline.py) showed a 75.7% win rate
 on random-walk data and was initially written up as evidence of a
 structural flaw. Re-running it properly across 20 seeds showed a mean of
-51.7% -- the original result was one noisy draw, not a bias. See
-CHANGELOG.md for the full account. This script is the reusable version of
+51.7% -- the original result was one noisy draw, not a bias. This script
+is the reusable version of
 that check, so the question can be re-asked cheaply whenever the labeling
 config, window length, or anything upstream of it changes.
 

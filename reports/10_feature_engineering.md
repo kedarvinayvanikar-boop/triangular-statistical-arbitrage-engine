@@ -1,8 +1,8 @@
-# Phase 10: Feature Engineering for ML
+# Feature Engineering for ML
 
-This phase converts candidate spread events into an event-level feature matrix for supervised learning.
+This converts candidate spread events into an event-level feature matrix for supervised learning.
 
-The target remains the Phase 9 event label:
+The target remains the event label defined earlier:
 
 \[
 P(\text{residual mean-reverts before stop-loss}\mid\text{current setup features}).
@@ -28,4 +28,4 @@ The included sample outputs are placeholders produced from synthetic data. They 
 
 ## Limitations
 
-Feature engineering can improve the representation of the trading setup, but it does not prove predictive power. Later phases still need walk-forward validation, probability calibration, and ML-filtered backtesting after transaction costs.
+Feature engineering can improve the representation of the trading setup, but it does not prove predictive power. Downstream modeling still needs walk-forward validation, probability calibration, and ML-filtered backtesting after transaction costs.

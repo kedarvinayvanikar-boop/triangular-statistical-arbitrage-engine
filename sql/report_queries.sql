@@ -1,4 +1,4 @@
--- Phase 16 report queries.
+-- Report queries.
 -- These queries summarize pipeline coverage, model outputs, and strategy audit results.
 
 -- name: pipeline_row_counts

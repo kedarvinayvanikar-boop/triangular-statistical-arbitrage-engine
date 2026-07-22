@@ -274,7 +274,7 @@ def summarize_event_labels(
     # defined reversion actually happen), not a claim about trading
     # profitability -- src/portfolio.py's win_rate is a separate concept
     # computed from realized dollar PnL, and the two are not guaranteed
-    # to agree (see CHANGELOG.md for a case where they diverged).
+    # to agree.
     if labels is None or labels.empty:
         return pd.DataFrame(columns=[*group_cols, "n_events", "success_count", "failure_count", "success_rate"])
     groups = _available_group_cols(labels, group_cols)

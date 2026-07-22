@@ -99,7 +99,7 @@ def test_benchmark_and_database_store_functions(tmp_path):
     )
     test_results = pd.DataFrame({"test_name": ["fallback"], "status": ["passed"], "detail": ["python backend"]})
 
-    with connect_database(tmp_path / "phase17.db") as conn:
+    with connect_database(tmp_path / "c_bindings_test.db") as conn:
         store_c_kernel_benchmark(conn, benchmark.assign(sample_rows=40, window=10))
         store_c_kernel_validation(conn, validation)
         store_c_kernel_test_results(conn, test_results)

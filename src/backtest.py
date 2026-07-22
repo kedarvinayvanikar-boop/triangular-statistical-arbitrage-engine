@@ -74,8 +74,9 @@ def event_spread_pnl(events: pd.DataFrame) -> pd.Series:
     residual actually dropped. For a long_spread trade (betting it rises
     back up), it's the mirror image, exit_z minus entry_z.
 
-    Important limitation, documented directly here because it drives a
-    real finding in CHANGELOG.md: this uses each event's originally
+    Important limitation, documented directly here since it drives a real
+    finding about this project's sensitivity grid: this uses each event's
+    originally
     RECORDED exit_z_score -- the price point where the residual actually
     ended up, fixed at label-generation time. It does not get recomputed
     if a hypothetical alternate exit_threshold/stop_loss/holding_period is
@@ -480,8 +481,8 @@ def relabel_events_for_threshold_scenario(
     `exit_threshold`, `stop_loss_level`, and `max_holding_period` change
     the `label` column (used elsewhere as the ML training target) but do
     NOT change net_pnl, Sharpe, or trade_count in
-    `run_threshold_sensitivity` below. See CHANGELOG.md for how this was
-    found and what it means for interpreting the sensitivity grid.
+    `run_threshold_sensitivity` below -- worth keeping in mind when
+    interpreting the sensitivity grid.
     """
     entry = _validate_positive_threshold(entry_threshold, "entry_threshold")
     exit_ = _validate_nonnegative_threshold(exit_threshold, "exit_threshold")

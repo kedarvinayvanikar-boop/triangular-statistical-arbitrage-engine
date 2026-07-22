@@ -648,7 +648,7 @@ function winRateFlag(strategy, headlineRate){
     if (maxRowSpread / scale < 0.005) {
       flagEl.style.display = 'block';
       flagEl.innerHTML = `⚠ ${metric==='net_pnl'?'Net PnL':'Sharpe'} does not vary across exit threshold for ${strategy.replace(/_/g,' ')} in the currently loaded data -- only entry threshold changes this metric here. ` +
-        `Exit threshold, stop-loss, and holding period change which events are labeled a success for the ML target, but that label isn't what drives realized trade PnL in this pipeline, so this axis is not informative for PnL/Sharpe. See CHANGELOG.md.`;
+        `Exit threshold, stop-loss, and holding period change which events are labeled a success for the ML target, but that label isn't what drives realized trade PnL in this pipeline, so this axis is not informative for PnL/Sharpe.`;
     } else {
       flagEl.style.display = 'none';
     }

@@ -1,8 +1,8 @@
-# Phase 8: Kalman Filter for Dynamic Hedge Ratios
+# Kalman Filter for Dynamic Hedge Ratios
 
 ## Research purpose
 
-Phase 8 extends the dynamic hedge-ratio framework from rolling regressions to a state-space model. The Kalman filter treats the triangular regression coefficients as latent variables that evolve through time. This is useful when the relationship between a target asset and two hedge assets changes gradually rather than remaining fixed across the full sample.
+This extends the dynamic hedge-ratio framework from rolling regressions to a state-space model. The Kalman filter treats the triangular regression coefficients as latent variables that evolve through time. This is useful when the relationship between a target asset and two hedge assets changes gradually rather than remaining fixed across the full sample.
 
 The triangular relationship remains
 
@@ -47,7 +47,7 @@ and `v_t` is measurement noise. Larger measurement noise makes the filter trust 
 
 ## Residual definition
 
-The residual used in this phase is the one-step-ahead innovation:
+The residual used here is the one-step-ahead innovation:
 
 ```text
 residual_t = y_t - H_t theta_{t|t-1}

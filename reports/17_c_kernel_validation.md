@@ -1,10 +1,10 @@
-# Phase 17: Optional C Rolling Regression Kernel
+# Optional C Rolling Regression Kernel
 
 ## Research purpose
 
 Rolling regression can be computationally repetitive because the same small matrix calculation is performed for every date and every triplet. For each rolling window, the regression rebuilds the normal-equation matrices, solves for alpha and hedge ratios, and computes the one-step residual.
 
-This phase isolates that repeated calculation in an optional C kernel while keeping Python as the reference implementation.
+This isolates that repeated calculation in an optional C kernel while keeping Python as the reference implementation.
 
 ## What the C kernel computes
 
@@ -64,4 +64,4 @@ If the C shared library is missing or compilation fails, `src/c_bindings.py` ret
 
 ## Interpretation
 
-This phase should be treated as an engineering extension. The correct standard is not whether C is faster on one sample. The correct standard is whether C matches Python first, remains optional, and does not make the research pipeline harder to audit.
+This should be treated as an engineering extension. The correct standard is not whether C is faster on one sample. The correct standard is whether C matches Python first, remains optional, and does not make the research pipeline harder to audit.

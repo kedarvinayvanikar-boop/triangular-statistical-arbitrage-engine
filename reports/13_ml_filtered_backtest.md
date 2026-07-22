@@ -1,6 +1,6 @@
-# Phase 13: ML-Filtered Backtest
+# ML-Filtered Backtest
 
-Phase 13 compares the baseline residual threshold strategy against two ML-filtered variants on the same candidate event universe.
+This compares the baseline residual threshold strategy against two ML-filtered variants on the same candidate event universe.
 
 The comparison is event-based. The baseline accepts every labeled candidate event. The ML-filtered strategy accepts only events whose predicted reversion probability is above the selected threshold. The probability-sized strategy uses the same probability screen and scales exposure by the predicted probability.
 
@@ -19,7 +19,7 @@ When realized trade PnL is not available, the module uses a residual z-score PnL
 - short spread: `entry_z_score - exit_z_score`
 - long spread: `exit_z_score - entry_z_score`
 
-Transaction costs are subtracted per accepted event and scaled by position size. This keeps the placeholder workflow reproducible while allowing the notebook to be replaced by real Phase 6 trade-level PnL when available.
+Transaction costs are subtracted per accepted event and scaled by position size. This keeps the placeholder workflow reproducible while allowing the notebook to be replaced by real trade-level PnL from the backtest engine when available.
 
 ## Outputs
 

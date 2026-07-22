@@ -1,6 +1,6 @@
-# Phase 19: Final visual package
+# Final Visual Package
 
-This phase adds a polished final visualization layer for the triangular statistical arbitrage research system.
+This adds a polished final visualization layer for the triangular statistical arbitrage research system.
 
 The final figure set is designed to tell the research story from data coverage through residual construction, diagnostics, event labels, ML model behavior, strategy comparison, regime diagnostics, and transaction-cost robustness.
 

@@ -1,4 +1,4 @@
--- Phase 16 canonical research database schema.
+-- Canonical research database schema.
 -- This section stores the full quant research pipeline in auditable tables.
 
 PRAGMA foreign_keys = ON;
@@ -364,7 +364,7 @@ LEFT JOIN trades tr ON tr.event_id = e.event_id
 GROUP BY t.triplet_id, t.target_symbol, t.hedge_symbol_1, t.hedge_symbol_2;
 
 
--- Legacy phase-specific tables and views retained for backward compatibility.
+-- Legacy stage-specific tables and views retained for backward compatibility.
 
 CREATE TABLE IF NOT EXISTS rolling_coefficients (
     date TEXT NOT NULL,

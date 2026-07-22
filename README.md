@@ -84,10 +84,10 @@ src/            core library — regression, ridge, Kalman, cointegration,
                  HMM, backtest, portfolio, database, ingestion
 scripts/        entry points — ingestion, pipeline runner, dashboard
                  builder, diagnostics, null-hypothesis check
-notebooks/      phase-by-phase research notebooks (06 through 16)
+notebooks/      numbered research notebooks (06 through 16)
 dashboard/      self-contained interactive dashboard (template + build)
 tests/          151 tests, one file per src module
-reports/        per-phase methodology write-ups
+reports/        methodology write-ups, one per module
 sql/            SQLite schema and validation queries
 .github/        CI workflow (lint + tests + coverage on every push)
 ```

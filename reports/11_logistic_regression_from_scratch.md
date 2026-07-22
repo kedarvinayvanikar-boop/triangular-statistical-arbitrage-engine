@@ -1,8 +1,8 @@
-# Phase 11: Logistic Regression from Scratch
+# Logistic Regression from Scratch
 
-This phase adds a supervised classification model for event-level trade filtering. The model estimates the probability that a candidate residual event reverts before its stop-loss within the maximum holding period.
+This adds a supervised classification model for event-level trade filtering. The model estimates the probability that a candidate residual event reverts before its stop-loss within the maximum holding period.
 
-The target is the event label from Phase 9. The inputs are the event features from Phase 10. The model does not predict next-day stock returns.
+The target is the event label defined during event labeling. The inputs are the event features built during feature engineering. The model does not predict next-day stock returns.
 
 ## Model
 

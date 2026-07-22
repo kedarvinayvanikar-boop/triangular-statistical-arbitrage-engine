@@ -1,0 +1,11 @@
+probability_bucket,bucket_lower,bucket_upper,n_events,success_count,failure_count,mean_predicted_probability,realized_success_rate,precision,split
+"(-0.001, 0.2]",0.0,0.2,0,0,0,,,,validation
+"(0.2, 0.4]",0.2,0.4,0,0,0,,,,validation
+"(0.4, 0.6]",0.4,0.6000000000000001,0,0,0,,,,validation
+"(0.6, 0.8]",0.6000000000000001,0.8,0,0,0,,,,validation
+"(0.8, 1.0]",0.8,1.0,2,1,1,0.9256543484781968,0.5,0.5,validation
+"(-0.001, 0.2]",0.0,0.2,0,0,0,,,,test
+"(0.2, 0.4]",0.2,0.4,0,0,0,,,,test
+"(0.4, 0.6]",0.4,0.6000000000000001,0,0,0,,,,test
+"(0.6, 0.8]",0.6000000000000001,0.8,0,0,0,,,,test
+"(0.8, 1.0]",0.8,1.0,2,1,1,0.9363697935972132,0.5,0.5,test

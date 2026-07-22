@@ -1,0 +1,2 @@
+triplet_id,method,n_obs,residual_mean,residual_std,residual_autocorr_1,half_life_estimate
+NVDA_SMH_QQQ,kalman,8,0.004,0.021,0.42,5.8

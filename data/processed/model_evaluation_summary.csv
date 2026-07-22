@@ -1,0 +1,3 @@
+split,n_obs,positive_rate,threshold,accuracy,precision,recall,specificity,negative_predictive_value,f1,log_loss,brier_score,roc_auc,true_positive,true_negative,false_positive,false_negative
+validation,2,0.5,0.5,0.5,0.5,1.0,0.0,,0.6666666666666666,1.5682670090976527,0.45792565815106767,0.0,1,0,1,0
+test,2,0.5,0.5,0.5,0.5,1.0,0.0,,0.6666666666666666,1.0610620115141356,0.3867101146611615,1.0,1,0,1,0

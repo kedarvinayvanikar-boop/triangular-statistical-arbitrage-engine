@@ -1,0 +1,7 @@
+strategy,metric,method,point_estimate,ci_low,ci_high,confidence,n_trades
+baseline_rule_based,win_rate,wilson_score,0.8620689655172413,0.7258098330227825,0.9365349090100048,0.9,29
+baseline_rule_based,mean_pnl,percentile_bootstrap,2.0241859582576565,1.579540520524124,2.4361918041877377,0.9,29
+ml_filtered,win_rate,wilson_score,1.0,0.8808421626456044,1.0,0.9,20
+ml_filtered,mean_pnl,percentile_bootstrap,2.53843941770229,2.249411106237614,2.8383328461111326,0.9,20
+ml_probability_sized,win_rate,wilson_score,1.0,0.8808421626456044,1.0,0.9,20
+ml_probability_sized,mean_pnl,percentile_bootstrap,2.0587388891200504,1.775410579389193,2.381882141130692,0.9,20

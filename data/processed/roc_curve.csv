@@ -1,0 +1,9 @@
+threshold,true_positive_rate,false_positive_rate,true_positive,false_positive,split
+inf,0.0,0.0,0,0,validation
+0.9517190153896607,0.0,1.0,0,1,validation
+0.8995896815667329,1.0,1.0,1,1,validation
+-inf,1.0,1.0,1,1,validation
+inf,0.0,0.0,0,0,test
+0.993321807598984,1.0,0.0,1,0,test
+0.8794177795954423,1.0,1.0,1,1,test
+-inf,1.0,1.0,1,1,test

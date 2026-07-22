@@ -1,0 +1,4 @@
+cluster_id,triplets,cluster_size,shared_legs,independent_bet
+0,AAPL_QQQ_XLK;AMD_SMH_QQQ;AMZN_QQQ_XLY;MSFT_QQQ_XLK;NVDA_SMH_QQQ;TSLA_QQQ_XLY,6,QQQ,False
+1,BAC_XLF_KRE;JPM_XLF_KRE,2,KRE;XLF,False
+2,CVX_XLE_USO;XOM_XLE_USO,2,USO;XLE,False

@@ -1,0 +1,19 @@
+figure,caption
+price_coverage_summary.png,Shows whether all assets have enough aligned observations to support cross-asset regression and backtesting.
+triplet_price_relationship.png,Indexes the target and anchor assets to compare the broad co-movement that motivates triangular relative-value modeling.
+hedge_ratio_stability.png,Compares dynamic beta paths to evaluate whether hedge ratios are stable or regime-sensitive.
+residual_zscore_example.png,"Shows how residual dislocations map into entry, exit, and stop-loss zones."
+residual_distribution.png,"Checks whether residuals are centered, heavy-tailed, or skewed relative to the strategy assumptions."
+residual_autocorrelation.png,Measures persistence in residual behavior and whether mean reversion is plausible across lags.
+half_life_by_triplet.png,Compares estimated residual mean-reversion speed across triplets.
+baseline_equity_curve.png,Displays the cumulative result of the rule-based baseline before ML filtering.
+baseline_drawdown.png,Shows the path-dependent risk of the baseline strategy through peak-to-trough losses.
+event_label_distribution.png,Summarizes the balance between successful and failed candidate events.
+feature_correlation_heatmap.png,Identifies redundant or highly related ML features before model training.
+logistic_loss_curve.png,Checks whether gradient descent training is numerically stable and loss decreases smoothly.
+probability_calibration_curve.png,Compares predicted reversion probabilities to realized success rates.
+precision_by_probability_bucket.png,Tests whether higher model probabilities correspond to higher realized trade success.
+ml_filtered_vs_baseline_equity.png,Compares cumulative strategy results after applying the ML probability filter.
+performance_by_triplet.png,Shows whether performance is broad-based or concentrated in a few relationships.
+performance_by_regime.png,Compares trade performance across inferred residual regimes.
+transaction_cost_sensitivity.png,Shows how much performance decays as execution-cost assumptions become more conservative.

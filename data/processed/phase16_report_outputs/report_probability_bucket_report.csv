@@ -1,0 +1,2 @@
+probability_bucket,n_predictions,average_predicted_probability,realized_success_rate
+0.60-0.80,1,0.68,1.0

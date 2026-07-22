@@ -1,0 +1,2 @@
+trade_id,event_id,strategy,entry_date,exit_date,side,predicted_reversion_probability,position_size,gross_pnl,transaction_cost,net_pnl,exit_reason
+trade_evt_NVDA_001,evt_NVDA_001,ml_filtered,2024-01-05,2024-01-09,short_spread,0.68,1.0,1.8,0.05,1.75,reversion

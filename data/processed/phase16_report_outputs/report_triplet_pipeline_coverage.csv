@@ -1,0 +1,2 @@
+triplet_id,target_symbol,hedge_symbol_1,hedge_symbol_2,residual_days,candidate_events,labeled_events,model_predictions,trades
+NVDA_SMH_QQQ,NVDA,SMH,QQQ,8,1,1,1,1

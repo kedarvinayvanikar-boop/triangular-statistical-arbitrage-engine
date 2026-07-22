@@ -1,0 +1,17 @@
+check_name,status,issue_count,rows_returned
+required_table_row_counts,pass,0,18
+triplet_symbols_missing_from_assets,pass,0,0
+clean_prices_without_assets,pass,0,0
+returns_without_clean_prices,pass,0,0
+residuals_without_triplets,pass,0,0
+candidate_events_without_residuals,pass,0,0
+event_features_without_candidate_events,pass,0,0
+event_labels_without_candidate_events,pass,0,0
+model_predictions_without_model_runs,pass,0,0
+model_predictions_without_candidate_events,pass,0,0
+model_prediction_probability_bounds,pass,0,0
+trades_without_candidate_events,pass,0,0
+positions_without_trades,pass,0,0
+pnl_missing_required_values,pass,0,0
+duplicate_prices_clean_keys,pass,0,0
+duplicate_model_predictions,pass,0,0

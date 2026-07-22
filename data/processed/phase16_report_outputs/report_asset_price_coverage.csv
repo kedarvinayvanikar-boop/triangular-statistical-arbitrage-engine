@@ -1,0 +1,4 @@
+symbol,asset_type,first_clean_date,last_clean_date,clean_price_rows
+NVDA,equity,2024-01-02,2024-01-11,8
+QQQ,etf,2024-01-02,2024-01-11,8
+SMH,etf,2024-01-02,2024-01-11,8

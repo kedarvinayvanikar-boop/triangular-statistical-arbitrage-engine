@@ -1,0 +1,2 @@
+model_run_id,model_type,split,n_predictions,average_predicted_probability,realized_success_rate
+logistic_phase11_walkforward_001,logistic_regression,validation,1,0.68,1.0

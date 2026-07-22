@@ -1,0 +1,5 @@
+event_id,triplet_id,method,event_date,split,predicted_reversion_probability,classification_threshold,predicted_label,label
+JPM_XLF_KRE_20240618,JPM_XLF_KRE,kalman_random_walk,2024-06-18,validation,0.9517190153896607,0.5,1,0
+NVDA_SMH_QQQ_20240712,NVDA_SMH_QQQ,kalman_random_walk,2024-07-12,validation,0.8995896815667329,0.5,1,1
+AAPL_QQQ_XLK_20240724,AAPL_QQQ_XLK,kalman_random_walk,2024-07-24,test,0.8794177795954423,0.5,1,0
+JPM_XLF_KRE_20240805,JPM_XLF_KRE,kalman_random_walk,2024-08-05,test,0.9933218075989841,0.5,1,1

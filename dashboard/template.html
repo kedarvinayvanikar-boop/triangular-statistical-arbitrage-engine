@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regime-Aware Triangular Statistical Arbitrage — Research Dashboard</title>
+<script>/*__CHART_JS__*/</script>
+<script>/*__THREE_JS__*/</script>
+
+<style>
+:root{
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Consolas", "Liberation Mono", monospace;
+  --bg:#0A0C10;
+  --panel:#0C0F13;
+  --panel-raised:#12151A;
+  --line:#1B1F26;
+  --line-soft:#15181E;
+  --text:#DCDFE4;
+  --text-muted:#828A98;
+  --text-faint:#565D6A;
+  --baseline:#7E93B4;
+  --ml:#C99A54;
+  --ml2:#4C9C8E;
+  --neg:#9E4A3F;
+  --pos:#7FD9A8;
+  --warn:#C99A54;
+  --warn-soft:rgba(201,154,84,0.08);
+  --radius:2px;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--sans);
+  font-size:13.5px;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1320px;margin:0 auto;padding:34px 32px 90px;}
+
+header.top{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  border-bottom:1px solid var(--line);
+  padding-bottom:18px;margin-bottom:0;
+  flex-wrap:wrap; gap:16px;
+}
+.title-block h1{
+  font-family:var(--sans);
+  font-weight:600;
+  font-size:19px;
+  margin:0 0 5px;
+  letter-spacing:-0.01em;
+}
+.title-block .sub{
+  color:var(--text-muted);
+  font-size:12.5px;
+  max-width:580px;
+}
+.status-block{
+  text-align:right;
+  font-family:var(--mono);
+  font-size:10.5px;
+  letter-spacing:0.02em;
+  color:var(--text-faint);
+  line-height:1.9;
+  white-space:nowrap;
+}
+.status-block .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--warn);margin-right:6px;position:relative;top:-1px;}
+.status-block .tag-row{color:var(--text-muted);}
+.status-block .tag-row span:not(:last-child)::after{content:" · ";color:var(--text-faint);}
+
+.disclosure{
+  margin:16px 0 24px;
+  padding:11px 0 11px 14px;
+  border-left:2px solid var(--warn);
+  font-size:12px;
+  color:var(--text-muted);
+  line-height:1.65;
+}
+.disclosure b{color:var(--warn);font-weight:600;}
+.disclosure code{font-family:var(--mono);font-size:11px;color:var(--text-muted);}
+
+.metrics-strip{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  margin:20px 0 28px;
+}
+.metric-cell{padding:14px 16px;border-right:1px solid var(--line);}
+.metric-cell:last-child{border-right:none;}
+.metric-cell .lbl{font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:8px;font-family:var(--mono);}
+.metric-cell .val{font-family:var(--mono);font-size:19px;font-weight:500;font-variant-numeric:tabular-nums;}
+.metric-cell .val .flag{color:var(--warn);font-size:12px;margin-left:5px;cursor:help;}
+.metric-cell .delta{font-family:var(--mono);font-size:11px;margin-top:5px;font-variant-numeric:tabular-nums;}
+.delta.pos{color:var(--pos);} .delta.neg{color:var(--neg);}
+
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.panel{
+  background:var(--panel);
+  padding:18px 20px 16px;
+}
+
+
+.panel h2{
+  font-size:12.5px;font-weight:600;letter-spacing:-0.005em;
+  margin:0 0 4px;color:var(--text);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.panel .desc{font-size:11.5px;color:var(--text-muted);margin-bottom:14px;}
+.legend-dot{display:inline-block;width:7px;height:7px;border-radius:50%;margin-right:5px;}
+
+.span-8{grid-column:span 8;} .span-4{grid-column:span 4;}
+.span-6{grid-column:span 6;} .span-12{grid-column:span 12;}
+.span-5{grid-column:span 5;} .span-7{grid-column:span 7;}
+.chart-box{position:relative;height:230px;}
+.chart-box.tall{height:290px;}
+
+table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11.5px;font-variant-numeric:tabular-nums;}
+th{
+  text-align:left;color:var(--text-faint);font-weight:500;
+  text-transform:uppercase;letter-spacing:0.05em;font-size:9.5px;
+  padding:6px 8px;border-bottom:1px solid var(--line);
+  cursor:pointer;user-select:none;font-family:var(--sans);
+}
+th:hover{color:var(--text-muted);}
+td{padding:6px 8px;border-bottom:1px solid var(--line-soft);color:var(--text);}
+tr:hover td{background:var(--panel-raised);}
+.mono-num{font-family:var(--mono);font-variant-numeric:tabular-nums;}
+.flag-icon{color:var(--warn);cursor:help;margin-left:3px;}
+.tag{font-size:9.5px;padding:1px 5px;text-transform:uppercase;letter-spacing:0.03em;font-family:var(--mono);border:1px solid transparent;}
+.tag.mean_reverting{color:var(--ml2);border-color:rgba(76,156,142,0.35);}
+.tag.trending{color:var(--baseline);border-color:rgba(126,147,180,0.35);}
+.tag.volatile_breakdown{color:var(--neg);border-color:rgba(192,106,93,0.35);}
+
+.controls{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:10px;}
+.control{display:flex;flex-direction:column;gap:4px;}
+.control label{font-size:10px;color:var(--text-faint);text-transform:uppercase;letter-spacing:0.05em;}
+select, .seg{
+  background:var(--panel-raised);border:1px solid var(--line);color:var(--text);
+  font-family:var(--mono);font-size:11px;padding:5px 8px;border-radius:var(--radius);
+}
+.seg-group{display:flex;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+.seg-btn{
+  background:var(--panel-raised);color:var(--text-muted);border:none;
+  font-family:var(--mono);font-size:10.5px;padding:5px 10px;cursor:pointer;
+  border-right:1px solid var(--line);
+}
+.seg-btn:last-child{border-right:none;}
+.seg-btn.active{background:var(--warn-soft);color:var(--warn);}
+
+.heatmap-wrap{display:flex;gap:14px;align-items:flex-start;}
+#heatmapCanvas{border-radius:var(--radius);}
+.hm-scale{display:flex;flex-direction:column;justify-content:space-between;height:210px;width:60px;font-family:var(--mono);font-size:9.5px;color:var(--text-faint);}
+
+.corr-wrap{overflow:auto;}
+#corrCanvas{display:block;}
+
+footer{
+  margin-top:0;padding:14px 0;border-top:1px solid var(--line);
+  color:var(--text-faint);font-size:11px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  font-family:var(--mono);
+}
+a{color:var(--ml2);text-decoration:none;}
+
+.small-note{font-size:10.5px;color:var(--text-faint);margin-top:9px;}
+.table-note{font-size:11px;color:var(--warn);margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);line-height:1.6;}
+
+.surface-canvas-wrap{position:relative;height:460px;border:1px solid var(--line);background:radial-gradient(ellipse at 50% 30%, #0D1015 0%, #08090C 100%);margin-top:4px;}
+.surface-canvas{width:100%;height:100%;cursor:grab;}
+.surface-canvas:active{cursor:grabbing;}
+.surface-axis-hint{
+  position:absolute;bottom:10px;left:12px;
+  display:flex;gap:14px;font-family:var(--mono);font-size:9.5px;color:var(--text-faint);
+  pointer-events:none;
+}
+.surface-legend{display:flex;gap:14px;align-items:center;font-family:var(--mono);font-size:10.5px;color:var(--text-muted);margin-left:auto;}
+.surface-legend .legend-dot{width:7px;height:7px;}
+#surfacePanel .panel-loading{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:var(--text-faint);font-family:var(--mono);font-size:11px;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+
+
+    <div class="title-block">
+      <h1>Regime-Aware Triangular Statistical Arbitrage</h1>
+      <div class="sub">Dynamic hedge ratios, residual mean reversion, and ML trade filtering across equity/ETF triplets — research &amp; backtesting dashboard.</div>
+    </div>
+    <div class="status-block">
+      <div><span class="dot"></span>STATIC SNAPSHOT — NOT LIVE</div>
+      <div class="tag-row"><span>10 TRIPLETS</span><span>WALK-FORWARD VALIDATED</span><span>SYNTHETIC DATA</span></div>
+    </div>
+  </header>
+
+  <div class="disclosure">
+    <b>Static, not live.</b> This dashboard reads a fixed JSON snapshot embedded in the HTML at build time — reopening the file always shows the same numbers, with no data feed or refresh. It is also built on <b>synthetic placeholder data</b> (flagged <code>interpretation_status = placeholder_not_for_research_interpretation</code> in the source tables), generated to exercise the pipeline end-to-end rather than to represent real market outcomes. Point the ingestion layer at real adjusted OHLCV data and regenerate the snapshot before treating any figure here as meaningful.
+  </div>
+
+  <div class="metrics-strip" id="metricsStrip"></div>
+
+
+  <div class="grid">
+
+    <div class="panel span-8">
+      <h2>Equity Curve — Baseline vs. ML-Filtered
+        <span style="font-size:10px;font-weight:400;">
+          <span class="legend-dot" style="background:var(--baseline)"></span>baseline
+          <span class="legend-dot" style="background:var(--ml);margin-left:10px;"></span>ML filtered
+        </span>
+      </h2>
+      <div class="desc">Cumulative net PnL per unit risk, transaction-cost adjusted.</div>
+      <div class="chart-box tall"><canvas id="equityChart"></canvas></div>
+    </div>
+
+    <div class="panel span-4">
+      <h2>Strategy Summary</h2>
+      <div class="desc">Full-sample, cost-adjusted.</div>
+      <table id="stratTable"></table>
+    </div>
+
+    <div class="panel span-6">
+      <h2>Performance by HMM Regime</h2>
+      <div class="desc">Net PnL conditioned on whether the regime filter flagged the residual as likely mean-reverting.</div>
+      <div class="chart-box"><canvas id="regimeChart"></canvas></div>
+    </div>
+
+    <div class="panel span-6">
+      <h2>Transaction Cost Sensitivity</h2>
+      <div class="desc">Net PnL across cost scenarios — tests whether the ML filter's edge survives realistic frictions.</div>
+      <div class="chart-box"><canvas id="costChart"></canvas></div>
+    </div>
+
+    <div class="panel span-5">
+      <h2>Probability Calibration</h2>
+      <div class="desc">Predicted P(mean-revert) vs. realized success rate, by bucket.</div>
+      <div class="chart-box"><canvas id="calibChart"></canvas></div>
+    </div>
+
+    <div class="panel span-7">
+      <h2>Entry / Exit Threshold Sensitivity
+        <span class="seg-group" id="metricToggle">
+          <button class="seg-btn active" data-metric="net_pnl">Net PnL</button>
+          <button class="seg-btn" data-metric="sharpe">Sharpe</button>
+        </span>
+      </h2>
+      <div class="controls">
+        <div class="control">
+          <label>Strategy</label>
+          <select id="thStrategy"></select>
+        </div>
+        <div class="small-note">Cell = mean across stop-loss (2.75&ndash;3.5&sigma;) and max holding period (10&ndash;15d) combinations.</div>
+      </div>
+      <div class="heatmap-wrap">
+        <canvas id="heatmapCanvas" width="360" height="224"></canvas>
+        <div class="hm-scale" id="hmScale"></div>
+      </div>
+      <div class="small-note" id="heatmapFlagNote" style="display:none;"></div>
+    </div>
+
+    <div class="panel span-7">
+      <h2>Feature Correlation Matrix</h2>
+      <div class="desc">Pairwise correlation of ML trade-filter input features — used to check for redundant or collinear inputs before training.</div>
+      <div class="corr-wrap"><canvas id="corrCanvas"></canvas></div>
+    </div>
+
+    <div class="panel span-5">
+      <h2>ROC — Mean-Reversion Classifier</h2>
+      <div class="desc">Validation split, logistic regression from scratch.</div>
+      <div class="chart-box"><canvas id="rocChart"></canvas></div>
+    </div>
+
+    <div class="panel span-12" id="surfacePanel">
+      <h2>Regime Probability Surface — 3D
+        <span class="seg-group" id="surfaceControls">
+          <button class="seg-btn active" id="surfaceRotateBtn">Auto-rotate: On</button>
+          <button class="seg-btn" id="surfaceResetBtn">Reset view</button>
+        </span>
+      </h2>
+      <div class="desc">Trading-day index × residual z-score × HMM mean-reversion probability, colored by detected regime. Drag to rotate, scroll to zoom, shift-drag to pan.</div>
+      <div class="controls">
+        <div class="control">
+          <label>Triplet</label>
+          <select id="surfaceTriplet"></select>
+        </div>
+        <div class="surface-legend" id="surfaceLegend"></div>
+      </div>
+      <div id="surfaceCanvasWrap" class="surface-canvas-wrap">
+        <div id="surfaceCanvas" class="surface-canvas"></div>
+        <div class="surface-axis-hint">
+          <span><span class="legend-dot" style="background:var(--text-faint)"></span>x — trading day index</span>
+          <span><span class="legend-dot" style="background:var(--text-faint)"></span>y — P(mean-reverting)</span>
+          <span><span class="legend-dot" style="background:var(--text-faint)"></span>z — residual z-score</span>
+        </div>
+      </div>
+      <div class="small-note">Synthetic placeholder data — illustrates the regime-detection mechanism, not a claim about real market behavior.</div>
+    </div>
+
+    <div class="panel span-12">
+      <h2>Triplet Leaderboard</h2>
+      <div class="desc">Event-level success rate by triplet under the Kalman-filtered dynamic hedge specification. Click a column to sort.</div>
+      <table id="tripletTable"></table>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>Regime-Aware Triangular Statistical Arbitrage — quantitative research project. Not investment advice.</span>
+    <span>Generated from <span class="mono-num">data/processed/*.csv</span>.</span>
+  </footer>
+
+</div>
+
+<script>
+const DATA = /*__DATA__*/;
+
+Chart.defaults.font.family = "ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace";
+Chart.defaults.font.size = 10.5;
+Chart.defaults.color = '#828A98';
+Chart.defaults.plugins.legend.labels.usePointStyle = true;
+Chart.defaults.plugins.legend.labels.pointStyle = 'circle';
+Chart.defaults.plugins.legend.labels.boxWidth = 6;
+Chart.defaults.plugins.legend.labels.boxHeight = 6;
+Chart.defaults.plugins.legend.labels.padding = 14;
+Chart.defaults.plugins.legend.labels.font = { family: "-apple-system, 'Segoe UI', sans-serif", size: 11 };
+const GRID = { color: '#161A20' };
+
+// crosshair plugin: a persistent vertical line synced to the cursor on
+// time-series charts, with a small x-axis value readout -- standard on
+// real trading terminals, absent from the default Chart.js tooltip alone
+const crosshairPlugin = {
+  id: 'crosshair',
+  afterEvent(chart, args) {
+    const e = args.event;
+    if (e.type === 'mousemove' && chart.chartArea) {
+      const { left, right, top, bottom } = chart.chartArea;
+      if (e.x >= left && e.x <= right && e.y >= top && e.y <= bottom) {
+        chart.crosshairX = e.x;
+      } else {
+        chart.crosshairX = null;
+      }
+      chart.draw();
+    } else if (e.type === 'mouseout') {
+      chart.crosshairX = null;
+      chart.draw();
+    }
+  },
+  afterDraw(chart) {
+    if (chart.crosshairX == null) return;
+    const { ctx, chartArea: { top, bottom } } = chart;
+    const x = chart.crosshairX;
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(x, top);
+    ctx.lineTo(x, bottom);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = 'rgba(219,224,232,0.28)';
+    ctx.setLineDash([3, 3]);
+    ctx.stroke();
+    ctx.restore();
+  },
+};
+Chart.register(crosshairPlugin);
+const COLORS = { baseline: '#7E93B4', ml: '#C99A54', ml2: '#4C9C8E', neg: '#9E4A3F', pos: '#7FD9A8' };
+
+function fmt(n, d=2){ if(n===null||n===undefined||Number.isNaN(n)) return '—'; return Number(n).toFixed(d); }
+
+// a headline win rate is flagged when it sits outside the range actually observed
+// across the threshold/stop-loss/holding-period sensitivity grid for that strategy --
+// that gap is the signal that the "full sample" figure is a single favorable draw,
+// not a robust estimate, and it is exactly the kind of number a live desk would
+// question before citing
+function sensitivityRange(strategy){
+  const rows = DATA.threshold_sensitivity.filter(r=>r.strategy===strategy);
+  if(!rows.length) return null;
+  const rates = rows.map(r=>r.win_rate);
+  return { min: Math.min(...rates), max: Math.max(...rates), n: rows.length };
+}
+function winRateFlag(strategy, headlineRate){
+  const range = sensitivityRange(strategy);
+  if(!range) return null;
+  if(headlineRate > range.max + 0.02 || headlineRate < range.min - 0.02){
+    return `Headline win rate (${fmt(headlineRate*100,1)}%) falls outside the ${fmt(range.min*100,1)}–${fmt(range.max*100,1)}% range observed across ${range.n} entry/exit/stop-loss/holding-period combinations for this strategy — treat it as one favorable synthetic draw, not a robust estimate.`;
+  }
+  return null;
+}
+
+// ---------- metrics strip ----------
+(function(){
+  const rows = DATA.strategy_comparison;
+  const base = rows.find(r=>r.strategy==='baseline_rule_based');
+  const ml = rows.find(r=>r.strategy==='ml_filtered');
+  const strip = document.getElementById('metricsStrip');
+  function cell(label, baseVal, mlVal, fmtFn, higherBetter=true, flagText=null){
+    const delta = mlVal - baseVal;
+    const good = higherBetter ? delta >= 0 : delta <= 0;
+    const div = document.createElement('div');
+    div.className = 'metric-cell';
+    div.innerHTML = `<div class="lbl">${label}</div>
+      <div class="val">${fmtFn(mlVal)}${flagText ? `<span class="flag" title="${flagText.replace(/"/g,'&quot;')}">&#9888;</span>` : ''}</div>
+      <div class="delta ${good?'pos':'neg'}">${good?'▲':'▼'} vs base ${fmtFn(baseVal)}</div>`;
+    strip.appendChild(div);
+  }
+  cell('ML Sharpe', base.sharpe, ml.sharpe, v=>fmt(v,2));
+  cell('ML Net PnL', base.net_pnl, ml.net_pnl, v=>fmt(v,2));
+  cell('ML Win Rate', base.win_rate, ml.win_rate, v=>fmt(v*100,1)+'%', true, winRateFlag('ml_filtered', ml.win_rate));
+  cell('ML Turnover', base.turnover, ml.turnover, v=>fmt(v,0), false);
+  cell('ML Max Drawdown', base.max_drawdown, ml.max_drawdown, v=>fmt(v,2), false);
+  const tripletCount = new Set(DATA.triplet_success.map(r=>r.triplet_id)).size;
+  const div = document.createElement('div');
+  div.className='metric-cell';
+  div.innerHTML = `<div class="lbl">Triplets Tracked</div><div class="val">${DATA.triplet_diagnostics.length ? new Set(DATA.triplet_diagnostics.map(r=>r.triplet_id)).size : tripletCount}</div><div class="delta" style="color:var(--text-faint)">rolling + ridge + static</div>`;
+  strip.appendChild(div);
+})();
+
+// ---------- strategy table ----------
+(function(){
+  const rows = DATA.strategy_comparison;
+  const t = document.getElementById('stratTable');
+  t.innerHTML = `<thead><tr><th>Strategy</th><th>Net PnL</th><th>Sharpe</th><th>Win %</th></tr></thead><tbody>${
+    rows.map(r=>{
+      const flag = winRateFlag(r.strategy, r.win_rate);
+      return `<tr><td>${r.strategy.replace(/_/g,' ')}</td><td class="mono-num">${fmt(r.net_pnl)}</td><td class="mono-num">${fmt(r.sharpe)}</td><td class="mono-num">${fmt(r.win_rate*100,1)}%${flag ? `<span class="flag-icon" title="${flag.replace(/"/g,'&quot;')}">&#9888;</span>` : ''}</td></tr>`;
+    }).join('')
+  }</tbody>`;
+  const flags = rows.map(r=>winRateFlag(r.strategy, r.win_rate)).filter(Boolean);
+  if(flags.length){
+    const note = document.createElement('div');
+    note.className = 'table-note';
+    note.textContent = '⚠ ' + flags[0];
+    t.closest('.panel').appendChild(note);
+  }
+})();
+
+// ---------- equity chart ----------
+(function(){
+  const ec = DATA.equity_curves;
+  const strategies = Object.keys(ec);
+  const colorFor = s => s.includes('ml') ? COLORS.ml : COLORS.baseline;
+  const allDates = ec[strategies[0]].dates;
+  new Chart(document.getElementById('equityChart'), {
+    type:'line',
+    data:{
+      labels: allDates,
+      datasets: strategies.map(s=>({
+        label: s.replace(/_/g,' '),
+        data: ec[s].equity,
+        borderColor: colorFor(s),
+        backgroundColor: 'transparent',
+        borderWidth: 1.6,
+        pointRadius: 0,
+        tension: 0.15,
+      }))
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      interaction:{mode:'index', intersect:false},
+      plugins:{ legend:{display:false} },
+      scales:{
+        x:{ grid:GRID, ticks:{maxTicksLimit:8} },
+        y:{ grid:GRID, title:{display:true,text:'cumulative net PnL (units)'} }
+      }
+    }
+  });
+})();
+
+// ---------- regime performance ----------
+(function(){
+  const rows = DATA.performance_by_regime;
+  const buckets = [...new Set(rows.map(r=>r.regime_bucket))];
+  const strategies = [...new Set(rows.map(r=>r.strategy))];
+  new Chart(document.getElementById('regimeChart'), {
+    type:'bar',
+    data:{
+      labels: buckets.map(b=>b.replace('mean_reverting_probability_','P(revert) ')),
+      datasets: strategies.map(s=>({
+        label: s.replace(/_/g,' '),
+        data: buckets.map(b=>{
+          const r = rows.find(x=>x.strategy===s && x.regime_bucket===b);
+          return r ? r.net_pnl : null;
+        }),
+        backgroundColor: s.includes('ml') ? COLORS.ml : COLORS.baseline,
+        borderRadius:2,
+      }))
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{boxWidth:10}}},
+      scales:{ x:{grid:{display:false}}, y:{grid:GRID, title:{display:true,text:'net PnL'}} }
+    }
+  });
+})();
+
+// ---------- cost sensitivity ----------
+(function(){
+  const rows = DATA.cost_sensitivity;
+  const scenarios = ['zero_cost','low_cost','base_cost','stress_cost'];
+  const strategies = [...new Set(rows.map(r=>r.strategy))];
+  new Chart(document.getElementById('costChart'), {
+    type:'line',
+    data:{
+      labels: scenarios.map(s=>s.replace('_',' ')),
+      datasets: strategies.map(s=>({
+        label: s.replace(/_/g,' '),
+        data: scenarios.map(sc=>{
+          const r = rows.find(x=>x.strategy===s && x.cost_scenario===sc);
+          return r ? r.net_pnl : null;
+        }),
+        borderColor: s.includes('ml_filtered') ? COLORS.ml : (s.includes('probability') ? COLORS.ml2 : COLORS.baseline),
+        backgroundColor:'transparent', borderWidth:1.8, pointRadius:3, tension:0.1,
+      }))
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{boxWidth:10}}},
+      scales:{ x:{grid:{display:false}}, y:{grid:GRID, title:{display:true,text:'net PnL'}} }
+    }
+  });
+})();
+
+// ---------- calibration ----------
+(function(){
+  const rows = DATA.calibration.filter(r=>r.split==='validation' || r.split==='test');
+  new Chart(document.getElementById('calibChart'), {
+    type:'scatter',
+    data:{
+      datasets:[
+        {
+          label:'observed',
+          data: rows.map(r=>({x:r.mean_predicted_probability, y:r.realized_success_rate})),
+          backgroundColor: COLORS.ml, pointRadius:5,
+        },
+        {
+          label:'perfect calibration',
+          data:[{x:0,y:0},{x:1,y:1}],
+          type:'line', borderColor:'#3a4256', borderDash:[4,3], pointRadius:0, borderWidth:1,
+        }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{boxWidth:10}}},
+      scales:{
+        x:{min:0,max:1, grid:GRID, title:{display:true,text:'predicted P(mean-revert)'}},
+        y:{min:0,max:1, grid:GRID, title:{display:true,text:'empirical success rate'}}
+      }
+    }
+  });
+})();
+
+// ---------- ROC ----------
+(function(){
+  const val = DATA.roc.filter(r=>r.split==='validation').sort((a,b)=>a.false_positive_rate-b.false_positive_rate);
+  new Chart(document.getElementById('rocChart'), {
+    type:'line',
+    data:{
+      datasets:[
+        { label:'ROC (validation)', data: val.map(r=>({x:r.false_positive_rate,y:r.true_positive_rate})), borderColor:COLORS.ml2, backgroundColor:'transparent', pointRadius:2, borderWidth:1.8, stepped:false },
+        { label:'chance', data:[{x:0,y:0},{x:1,y:1}], borderColor:'#3a4256', borderDash:[4,3], pointRadius:0, borderWidth:1 }
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{boxWidth:10}}},
+      scales:{
+        x:{type:'linear',min:0,max:1, grid:GRID, title:{display:true,text:'false positive rate'}},
+        y:{min:0,max:1, grid:GRID, title:{display:true,text:'true positive rate'}}
+      }
+    }
+  });
+  const note = document.createElement('div');
+  note.className='small-note';
+  note.textContent = 'Validation split is small in this synthetic run (n≈2) — treat AUC as illustrative of the evaluation pipeline, not a real generalization estimate.';
+  document.getElementById('rocChart').closest('.panel').appendChild(note);
+})();
+
+// ---------- threshold sensitivity heatmap ----------
+(function(){
+  const rows = DATA.threshold_sensitivity;
+  const strategies = [...new Set(rows.map(r=>r.strategy))];
+  const sel = document.getElementById('thStrategy');
+  strategies.forEach(s=>{
+    const o = document.createElement('option'); o.value=s; o.textContent=s.replace(/_/g,' '); sel.appendChild(o);
+  });
+  sel.value = 'ml_filtered';
+  let metric = 'net_pnl';
+
+  const entries = [1.5, 2.0, 2.5];
+  const exits = [0.25, 0.5, 0.75];
+  const canvas = document.getElementById('heatmapCanvas');
+  const ctx = canvas.getContext('2d');
+  const cellW = 100, cellH = 60, padL = 46, padT = 10;
+
+  function valueAt(strategy, entry, exit){
+    const subset = rows.filter(r=>r.strategy===strategy && r.entry_threshold===entry && r.exit_threshold===exit);
+    if(!subset.length) return null;
+    return subset.reduce((a,r)=>a+r[metric],0) / subset.length;
+  }
+
+  function draw(){
+    const strategy = sel.value;
+    const vals = [];
+    entries.forEach(e=>exits.forEach(x=>{ const v = valueAt(strategy,e,x); if(v!==null) vals.push(v); }));
+    const min = Math.min(...vals), max = Math.max(...vals);
+    const scale = Math.max(Math.abs(max), Math.abs(min), 1e-9);
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.font = "10px -apple-system, sans-serif";
+    entries.forEach((e,ei)=>{
+      exits.forEach((x,xi)=>{
+        const v = valueAt(strategy, e, x);
+        const t = max>min ? (v-min)/(max-min) : 0.5;
+        const r = Math.round(60 + t*(201-60));
+        const g = Math.round(70 + t*(138-70));
+        const b = Math.round(90 + t*(62-90));
+        ctx.fillStyle = v===null ? '#1c2129' : `rgb(${r},${g},${b})`;
+        const px = padL + ei*cellW, py = padT + xi*cellH;
+        ctx.fillRect(px, py, cellW-4, cellH-4);
+        ctx.fillStyle = '#0F1217';
+        ctx.fillText(v===null?'—':v.toFixed(2), px+8, py+cellH/2);
+      });
+    });
+    ctx.fillStyle = '#5C6577';
+    exits.forEach((x,xi)=> ctx.fillText(x+'σ', 8, padT+xi*cellH+34));
+    const labelY = padT + exits.length*cellH + 16;
+    entries.forEach((e,ei)=> ctx.fillText('entry '+e+'σ', padL+ei*cellW+8, labelY));
+
+    const scaleEl = document.getElementById('hmScale');
+    scaleEl.innerHTML = `<span>${max.toFixed(2)}</span><span style="align-self:center;writing-mode:vertical-rl;color:var(--text-faint)">${metric==='net_pnl'?'net pnl':'sharpe'}</span><span>${min.toFixed(2)}</span>`;
+
+    // an axis that shows no real variation isn't a rendering artifact --
+    // it means this metric, as computed by the pipeline, genuinely does
+    // not respond to that parameter, and displaying a grid that implies
+    // otherwise would be misleading. Checked live against whatever data
+    // is currently loaded, not asserted once and left stale.
+    let maxRowSpread = 0;
+    entries.forEach(e => {
+      const rowVals = exits.map(x => valueAt(strategy, e, x)).filter(v => v !== null);
+      if (rowVals.length > 1) {
+        maxRowSpread = Math.max(maxRowSpread, Math.max(...rowVals) - Math.min(...rowVals));
+      }
+    });
+    const flagEl = document.getElementById('heatmapFlagNote');
+    if (maxRowSpread / scale < 0.005) {
+      flagEl.style.display = 'block';
+      flagEl.innerHTML = `⚠ ${metric==='net_pnl'?'Net PnL':'Sharpe'} does not vary across exit threshold for ${strategy.replace(/_/g,' ')} in the currently loaded data -- only entry threshold changes this metric here. ` +
+        `Exit threshold, stop-loss, and holding period change which events are labeled a success for the ML target, but that label isn't what drives realized trade PnL in this pipeline, so this axis is not informative for PnL/Sharpe. See CHANGELOG.md.`;
+    } else {
+      flagEl.style.display = 'none';
+    }
+  }
+  sel.addEventListener('change', draw);
+  document.getElementById('metricToggle').addEventListener('click', (e)=>{
+    if(e.target.dataset.metric){
+      metric = e.target.dataset.metric;
+      [...document.getElementById('metricToggle').children].forEach(b=>b.classList.remove('active'));
+      e.target.classList.add('active');
+      draw();
+    }
+  });
+  draw();
+})();
+
+// ---------- correlation heatmap ----------
+(function(){
+  const feats = DATA.feature_correlation.features;
+  const mat = DATA.feature_correlation.matrix;
+  const n = feats.length;
+  const cell = 22;
+  const labelW = 130;
+  const canvas = document.getElementById('corrCanvas');
+  canvas.width = labelW + n*cell + 10;
+  canvas.height = labelW + n*cell + 10;
+  const ctx = canvas.getContext('2d');
+  ctx.font = "9px -apple-system, sans-serif";
+  ctx.textBaseline = 'middle';
+  for(let i=0;i<n;i++){
+    ctx.save();
+    ctx.translate(labelW - 4, labelW + i*cell + cell/2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = '#8A93A6';
+    ctx.fillText(feats[i], 0, 0);
+    ctx.restore();
+
+    ctx.save();
+    ctx.translate(labelW + i*cell + cell/2, labelW - 6);
+    ctx.rotate(-Math.PI/2.4);
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#8A93A6';
+    ctx.fillText(feats[i], 0, 0);
+    ctx.restore();
+  }
+  for(let i=0;i<n;i++){
+    for(let j=0;j<n;j++){
+      const v = mat[i][j];
+      const px = labelW + j*cell, py = labelW + i*cell;
+      let r,g,b;
+      if(v>=0){ r = Math.round(24 + (201-24)*v); g = Math.round(29 + (138-29)*v); b = Math.round(39 + (62-39)*v); }
+      else { const t=-v; r = Math.round(24 + (193-24)*t); g = Math.round(29 + (85-29)*t); b = Math.round(39 + (74-39)*t); }
+      ctx.fillStyle = `rgb(${r},${g},${b})`;
+      ctx.fillRect(px, py, cell-1, cell-1);
+    }
+  }
+})();
+
+// ---------- 3D regime probability surface ----------
+(function(){
+  const wrap = document.getElementById('surfaceCanvasWrap');
+  const mount = document.getElementById('surfaceCanvas');
+  if(!mount || !window.THREE || !DATA.regime_surface) return;
+
+  const REGIME_HEX = {
+    mean_reverting: 0x4C9C8E,
+    trending: 0x7E93B4,
+    volatile_breakdown: 0xC06A5D,
+  };
+  const FALLBACK_HEX = 0x565D6A;
+
+  // legend (static across triplets -- same three regimes everywhere)
+  const legend = document.getElementById('surfaceLegend');
+  legend.innerHTML = Object.entries(REGIME_HEX).map(([name, hex]) =>
+    `<span><span class="legend-dot" style="background:#${hex.toString(16).padStart(6,'0')}"></span>${name.replace(/_/g,' ')}</span>`
+  ).join('');
+
+  const triplets = Object.keys(DATA.regime_surface);
+  const sel = document.getElementById('surfaceTriplet');
+  triplets.forEach(t => {
+    const o = document.createElement('option');
+    o.value = t; o.textContent = t.replace(/_/g, ' / ');
+    sel.appendChild(o);
+  });
+
+  // bounding box dimensions in scene units
+  const W = 10, H = 5, D = 7;
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0x0a0c10, 0.028);
+
+  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
+  const initialPos = new THREE.Vector3(9.5, 6.2, 10.5);
+  const initialTarget = new THREE.Vector3(0, H / 2, 0);
+  camera.position.copy(initialPos);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  mount.appendChild(renderer.domElement);
+
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.target.copy(initialTarget);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.08;
+  controls.minDistance = 6;
+  controls.maxDistance = 26;
+  controls.autoRotate = true;
+  controls.autoRotateSpeed = 0.7;
+  controls.update();
+
+  // floor grid on the (time, z-score) plane -- probability axis is the vertical
+  const grid = new THREE.GridHelper(Math.max(W, D), 12, 0x2A303C, 0x1B1F26);
+  grid.position.set(0, 0, 0);
+  scene.add(grid);
+
+  const boxGeom = new THREE.BoxGeometry(W, H, D);
+  const wireframe = new THREE.LineSegments(
+    new THREE.EdgesGeometry(boxGeom),
+    new THREE.LineBasicMaterial({ color: 0x262C39, transparent: true, opacity: 0.55 })
+  );
+  wireframe.position.set(0, H / 2, 0);
+  scene.add(wireframe);
+
+  // circular sprite texture for point markers
+  const spriteCanvas = document.createElement('canvas');
+  spriteCanvas.width = spriteCanvas.height = 32;
+  const sctx = spriteCanvas.getContext('2d');
+  const grad = sctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+  grad.addColorStop(0, 'rgba(255,255,255,1)');
+  grad.addColorStop(0.6, 'rgba(255,255,255,0.85)');
+  grad.addColorStop(1, 'rgba(255,255,255,0)');
+  sctx.fillStyle = grad;
+  sctx.fillRect(0, 0, 32, 32);
+  const dotTexture = new THREE.CanvasTexture(spriteCanvas);
+
+  // small canvas-text sprite for axis labels
+  function makeLabel(text, color) {
+    const c = document.createElement('canvas');
+    c.width = 256; c.height = 64;
+    const cx = c.getContext('2d');
+    cx.font = '600 26px -apple-system, "Segoe UI", sans-serif';
+    cx.fillStyle = color;
+    cx.textBaseline = 'middle';
+    cx.fillText(text, 4, 32);
+    const tex = new THREE.CanvasTexture(c);
+    tex.minFilter = THREE.LinearFilter;
+    const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, depthTest: false });
+    const sprite = new THREE.Sprite(mat);
+    sprite.scale.set(2.6, 0.65, 1);
+    return sprite;
+  }
+  const labelX = makeLabel('trading day \u2192', '#8B93A3');
+  labelX.position.set(W / 2 + 0.6, 0.1, D / 2 + 0.3);
+  scene.add(labelX);
+  const labelY = makeLabel('P(mean-reverting)', '#8B93A3');
+  labelY.position.set(-W / 2 - 0.3, H + 0.35, -D / 2);
+  scene.add(labelY);
+  const labelZ = makeLabel('residual z-score', '#8B93A3');
+  labelZ.position.set(-W / 2 - 0.6, 0.1, 0);
+  scene.add(labelZ);
+  [0, 0.5, 1].forEach(v => {
+    const tick = makeLabel(v.toFixed(1), '#565D6A');
+    tick.scale.set(1.1, 0.3, 1);
+    tick.position.set(-W / 2 - 0.25, v * H, -D / 2);
+    scene.add(tick);
+  });
+
+  let dataLine = null, dataPoints = null;
+
+  function buildTrace(tripletId) {
+    if (dataLine) { scene.remove(dataLine); dataLine.geometry.dispose(); dataLine.material.dispose(); }
+    if (dataPoints) { scene.remove(dataPoints); dataPoints.geometry.dispose(); dataPoints.material.dispose(); }
+
+    const g = DATA.regime_surface[tripletId];
+    const n = g.t.length;
+    const maxAbsZ = Math.max(1, ...g.z.map(Math.abs));
+
+    const positions = new Float32Array(n * 3);
+    const colors = new Float32Array(n * 3);
+    const col = new THREE.Color();
+
+    for (let i = 0; i < n; i++) {
+      const x = (g.t[i] / (n - 1)) * W - W / 2;
+      const y = g.p_mean_revert[i] * H;
+      const z = (g.z[i] / maxAbsZ) * (D / 2) * 0.85;
+      positions[i * 3] = x; positions[i * 3 + 1] = y; positions[i * 3 + 2] = z;
+      col.setHex(REGIME_HEX[g.regime[i]] ?? FALLBACK_HEX);
+      colors[i * 3] = col.r; colors[i * 3 + 1] = col.g; colors[i * 3 + 2] = col.b;
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+    dataLine = new THREE.Line(
+      geometry,
+      new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.75 })
+    );
+    scene.add(dataLine);
+
+    dataPoints = new THREE.Points(
+      geometry,
+      new THREE.PointsMaterial({
+        vertexColors: true, size: 0.16, map: dotTexture,
+        transparent: true, alphaTest: 0.1, sizeAttenuation: true, depthWrite: false,
+      })
+    );
+    scene.add(dataPoints);
+  }
+
+  function resize() {
+    const w = wrap.clientWidth, h = wrap.clientHeight;
+    if (w === 0 || h === 0) return;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
+  new ResizeObserver(resize).observe(wrap);
+  resize();
+
+  sel.value = triplets[0];
+  buildTrace(triplets[0]);
+  sel.addEventListener('change', () => buildTrace(sel.value));
+
+  document.getElementById('surfaceRotateBtn').addEventListener('click', (e) => {
+    controls.autoRotate = !controls.autoRotate;
+    e.target.textContent = 'Auto-rotate: ' + (controls.autoRotate ? 'On' : 'Off');
+    e.target.classList.toggle('active', controls.autoRotate);
+  });
+  document.getElementById('surfaceResetBtn').addEventListener('click', () => {
+    camera.position.copy(initialPos);
+    controls.target.copy(initialTarget);
+    controls.update();
+  });
+
+  (function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+  })();
+})();
+
+// ---------- triplet leaderboard ----------
+(function(){
+  let rows = DATA.triplet_success.slice();
+  const table = document.getElementById('tripletTable');
+  const cols = [
+    {k:'triplet_id', label:'Triplet'},
+    {k:'method', label:'Method'},
+    {k:'n_events', label:'N Events'},
+    {k:'success_count', label:'Successes'},
+    {k:'success_rate', label:'Success Rate', fmt:v=>fmt(v*100,1)+'%'},
+  ];
+  let sortKey = 'success_rate', sortDir = -1;
+  function render(){
+    rows.sort((a,b)=> (a[sortKey]>b[sortKey]?1:-1) * sortDir);
+    table.innerHTML = `<thead><tr>${cols.map(c=>`<th data-k="${c.k}">${c.label}${sortKey===c.k?(sortDir===1?' ▲':' ▼'):''}</th>`).join('')}</tr></thead>
+      <tbody>${rows.map(r=>`<tr>${cols.map(c=>`<td class="${c.k==='success_rate'||c.k==='n_events'||c.k==='success_count'?'mono-num':''}">${c.fmt?c.fmt(r[c.k]):r[c.k]}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    table.querySelectorAll('th').forEach(th=>th.addEventListener('click',()=>{
+      const k = th.dataset.k;
+      sortDir = (sortKey===k) ? -sortDir : -1;
+      sortKey = k;
+      render();
+    }));
+  }
+  render();
+})();
+</script>
+</body>
+</html>

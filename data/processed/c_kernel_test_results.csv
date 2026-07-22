@@ -1,0 +1,4 @@
+test_name,status,detail
+c_compile_status,passed,compiled
+python_fallback_available,passed,rolling_ols_python is available when C is not compiled
+max_abs_difference_threshold,passed,"compared rolling alpha, beta, fitted values, residuals"

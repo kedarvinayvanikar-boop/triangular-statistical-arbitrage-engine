@@ -1,0 +1,4 @@
+triplet_id,method,n_events,success_count,failure_count,success_rate
+AAPL_QQQ_XLK,kalman_random_walk,11,9,2,0.8181818181818182
+JPM_XLF_KRE,kalman_random_walk,10,8,2,0.8
+NVDA_SMH_QQQ,kalman_random_walk,8,5,3,0.625

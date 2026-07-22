@@ -1,0 +1,7 @@
+strategy,regime_bucket,trade_count,average_mean_reverting_probability,success_rate,net_pnl,average_net_pnl,turnover,regime_probability_threshold
+baseline_rule_based,mean_reverting_probability_above_threshold,20,0.985617657983543,0.7,39.980098772847015,1.9990049386423507,40.0,0.6
+baseline_rule_based,mean_reverting_probability_below_threshold,9,0.07554109603285736,0.8888888888888888,18.721294016625016,2.080143779625002,18.0,0.6
+ml_filtered,mean_reverting_probability_above_threshold,13,0.9850335681555398,1.0,33.058595742470175,2.5429689032669365,26.0,0.6
+ml_filtered,mean_reverting_probability_below_threshold,7,0.08842213366026523,1.0,17.710192611575618,2.530027515939374,14.0,0.6
+ml_probability_sized,mean_reverting_probability_above_threshold,13,0.9850335681555398,1.0,25.938631481929125,1.9952793447637789,20.1588056644459,0.6
+ml_probability_sized,mean_reverting_probability_below_threshold,7,0.08842213366026523,1.0,15.236146300471875,2.176592328638839,12.013993744672717,0.6

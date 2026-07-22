@@ -1,0 +1,6 @@
+probability_bucket,n_events,mean_predicted_probability,observed_success_rate
+"(-0.001, 0.2]",0,,
+"(0.2, 0.4]",0,,
+"(0.4, 0.6]",0,,
+"(0.6, 0.8]",0,,
+"(0.8, 1.0]",4,0.931012071037705,0.5

@@ -1,0 +1,4 @@
+strategy,trade_count,baseline_trade_count,trades_avoided_vs_baseline,trade_count_ratio_to_baseline
+baseline_rule_based,29,29,0,1.0
+ml_filtered,20,29,9,0.6896551724137931
+ml_probability_sized,20,29,9,0.6896551724137931

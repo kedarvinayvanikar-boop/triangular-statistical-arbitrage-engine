@@ -1,0 +1,4 @@
+date,strategy,gross_pnl,transaction_cost,net_pnl,equity,drawdown,turnover
+2024-01-05,ml_filtered,0.32,0.02,0.3,0.3,0.0,0.5
+2024-01-08,ml_filtered,0.72,0.02,0.7,1.0,0.0,0.5
+2024-01-09,ml_filtered,0.77,0.02,0.75,1.75,0.0,0.5

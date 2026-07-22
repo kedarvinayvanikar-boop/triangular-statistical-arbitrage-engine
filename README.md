@@ -60,7 +60,6 @@ Every claim this project makes has been checked, not just asserted:
 - **Cointegration is tested, not assumed** — an ADF test (from scratch) plus Benjamini-Hochberg false-discovery-rate correction gates which of the 82 triplets are actually treated as tradeable
 - Every win rate and Sharpe figure ships with a **confidence interval** (Wilson score for proportions, block bootstrap for path-dependent metrics like drawdown) instead of false precision
 
-Full account of every fix, what was checked, and what's still a known limitation: see [`CHANGELOG.md`](CHANGELOG.md).
 
 ## Quickstart
 
